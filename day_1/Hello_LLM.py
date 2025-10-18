@@ -277,7 +277,7 @@ def _(mo):
 def _(mo):
     prompt_input = mo.ui.text(
         label="Enter your prompt",
-        value="Write a brief text on climate change as vice ganda in a talk show.",
+        value="Write a brief text on climate change as a standup comedian.",
         full_width=True
     )
     return (prompt_input,)
