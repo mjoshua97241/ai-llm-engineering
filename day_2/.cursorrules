@@ -1,0 +1,195 @@
+# Energy Anomaly Detection (EAD) - Project Intelligence
+
+## Project Overview
+
+This is an Energy Anomaly Detection (EAD) system - a Python/Marimo application that detects and visualizes energy-use anomalies in BIM-derived models. It's a demo prototype for AI/LLM Engineering Capstone showcasing data → analytics → 3D visualization → LLM explanation workflow.
+
+## Critical Implementation Paths
+
+### Core Workflow
+
+1. **Data Loading**: CSV/TimescaleDB → Pandas DataFrame
+2. **Data Cleaning**: Handle missing values, validate units, resample
+3. **Feature Engineering**: Rolling baseline, residuals, z-scores
+4. **Anomaly Detection**: Z-score classification (Normal/Near/Anomaly)
+5. **3D Visualization**: PyVista rendering with color mapping
+6. **AI Explanation**: LLM summary of top anomalies
+7. **Export**: Structured CSV/JSON output with run metadata
+
+### Key Technical Decisions
+
+- **3D Rendering**: PyVista primary, Trimesh fallback
+- **AI Integration**: Multi-provider (OpenAI/Claude) support
+- **Architecture**: Modular design for testability
+- **Performance**: ≤ 30s runtime, ≤ 8s model loading
+
+## Project-Specific Patterns
+
+### Module Structure
+
+```
+hauska_ead/
+├─ io/etl.py          # Data loading and cleaning
+├─ anomaly/core.py    # Rolling baseline + z-score
+├─ viz/pyvista_view.py # 3D visualization & legend
+├─ llm/explain.py     # GPT/Claude summary functions
+├─ runs/history.py    # Run logging & exports
+└─ app.marimo.py      # UI cells calling the modules
+```
+
+### Data Flow Pattern
+
+```python
+# Standard data flow through modules
+raw_data → etl.clean_data() → anomaly.detect() → viz.render() → llm.explain()
+```
+
+### Performance Patterns
+
+- **Lazy Loading**: Load 3D models on-demand
+- **Batch Processing**: Process data in chunks
+- **Caching**: Cache LLM responses for similar patterns
+- **Vectorization**: Use NumPy operations over loops
+
+## User Preferences and Workflow
+
+### Development Approach
+
+- **Memory Bank First**: Always start with context documentation
+- **Modular Development**: Build and test components independently
+- **Performance Focus**: Monitor against target metrics continuously
+- **Testing**: Comprehensive unit and integration testing
+
+### Code Quality Standards
+
+- **Type Hints**: Use type annotations for all functions
+- **Error Handling**: Graceful degradation with clear error messages
+- **Documentation**: Docstrings for all public functions
+- **Testing**: ≥ 80% code coverage target
+
+## Known Challenges
+
+### Performance Targets
+
+- **Runtime**: ≤ 30s end-to-end for ≤ 10k records
+- **Loading**: ≤ 8s for 3D model loading
+- **Accuracy**: ≥ 95% anomaly detection, ≥ 80% LLM accuracy
+- **Reproducibility**: ≥ 95% identical reruns
+
+### Technical Challenges
+
+- **3D Model Loading**: Large OBJ files need optimization
+- **API Integration**: LLM API rate limits and error handling
+- **Memory Usage**: Efficient handling of large datasets
+- **Cross-platform**: Ensure compatibility across systems
+
+### Data Dependencies
+
+- **Sample Data**: Need realistic energy dataset with anomalies
+- **3D Models**: Need IFC-derived OBJ files with proper GUIDs
+- **API Keys**: Need OpenAI/Claude API access
+
+## Evolution of Project Decisions
+
+### Architecture Evolution
+
+- **Initial**: Monolithic approach considered
+- **Current**: Modular design for testability and maintainability
+- **Rationale**: Enables independent testing and future extensions
+
+### Technology Evolution
+
+- **3D Rendering**: PyVista chosen over alternatives for performance
+- **AI Integration**: Multi-provider support reduces vendor lock-in
+- **Interface**: Marimo chosen for interactive data science workflow
+
+### Performance Evolution
+
+- **Targets**: Established based on demo requirements
+- **Optimization**: Focus on critical path performance
+- **Monitoring**: Continuous tracking against targets
+
+## Tool Usage Patterns
+
+### Development Tools
+
+- **Package Manager**: uv for fast dependency management
+- **Testing**: pytest for unit and integration testing
+- **Linting**: ruff for code quality and formatting
+- **Version Control**: Git with clear commit messages
+
+### API Integration
+
+- **OpenAI**: GPT-4 for high-quality explanations
+- **Claude**: Alternative provider for cost optimization
+- **Error Handling**: Exponential backoff with circuit breaker
+- **Cost Management**: Monitor token usage and implement caching
+
+### 3D Visualization
+
+- **Primary**: PyVista for performance and interactivity
+- **Fallback**: Trimesh for compatibility
+- **Optimization**: Level of detail and culling for performance
+- **Interactivity**: Click-to-inspect and legend functionality
+
+## Critical Success Factors
+
+### Technical Excellence
+
+- **Modular Design**: Enables testing and maintenance
+- **Performance Optimization**: Meets target metrics
+- **Error Handling**: Graceful degradation and user feedback
+- **Testing**: Comprehensive coverage and integration tests
+
+### User Experience
+
+- **3D Visualization**: Intuitive navigation and interaction
+- **AI Explanations**: Clear, actionable insights
+- **Performance**: Responsive interface and fast results
+- **Export**: Structured outputs for further analysis
+
+### Project Management
+
+- **Memory Bank**: Maintain comprehensive documentation
+- **Progress Tracking**: Clear milestones and status updates
+- **Risk Management**: Identify and mitigate potential issues
+- **Quality Assurance**: Continuous testing and validation
+
+## Implementation Notes
+
+### When Adding New Features
+
+1. **Update Memory Bank**: Document new patterns and decisions
+2. **Maintain Modularity**: Keep components loosely coupled
+3. **Test Thoroughly**: Unit tests for new functionality
+4. **Performance Impact**: Monitor against target metrics
+5. **Documentation**: Update relevant memory bank files
+
+### When Debugging Issues
+
+1. **Check Memory Bank**: Review relevant context and patterns
+2. **Isolate Components**: Test individual modules first
+3. **Performance Analysis**: Use profiling tools for bottlenecks
+4. **Error Handling**: Implement graceful degradation
+5. **Document Solutions**: Update patterns and lessons learned
+
+### When Optimizing Performance
+
+1. **Profile First**: Identify actual bottlenecks
+2. **Vectorize Operations**: Use NumPy over Python loops
+3. **Cache Results**: Store expensive computations
+4. **Lazy Loading**: Load resources on-demand
+5. **Monitor Metrics**: Track against target performance
+
+## Project Intelligence Summary
+
+This project combines energy analysis, 3D visualization, and AI explanation in a single Python application. Success depends on modular architecture, performance optimization, and comprehensive testing. The memory bank provides essential context for maintaining continuity across development sessions.
+
+Key success factors:
+
+- Modular design for testability
+- Performance focus with clear targets
+- Comprehensive testing strategy
+- AI integration with multiple providers
+- 3D visualization with PyVista
+- Structured data flow and exports
